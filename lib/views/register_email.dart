@@ -1,9 +1,6 @@
-import 'package:bits/views/user_view.dart';
 import 'package:bits/views/verify_email.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:lottie/lottie.dart';
+import 'package:get/get.dart';
 import 'package:mix/mix.dart';
 
 class RegisterEmail extends StatefulWidget {
@@ -18,126 +15,116 @@ class _RegisterEmailState extends State<RegisterEmail> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
-      assignId: true,
-      builder: (logic) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body:
-
-          InkWell(
-            onTap: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
-            },
-            child: Center(
-              child: SingleChildScrollView(
-                child: VBox(
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: InkWell(
+        onTap: () {
+          FocusScope.of(context).unfocus(); // Corrected focus handling
+        },
+        child: Center(
+          child: SingleChildScrollView(
+            child: VBox(
+              style: Style(
+                $flex.mainAxisAlignment.center(),
+                $box.padding.all(15),
+                $box.height(size.height),
+                $on.dark(
+                  $box.color(Colors.grey[900]!),
+                ),
+              ),
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: StyledText(
+                    "Email",
                     style: Style(
-                        $flex.mainAxisAlignment.center(),
-                        $box.padding.all(15)
-                    ),
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: StyledText("Email", style: Style(
-                          $text.style.color(Colors.black),
-                          $text.style.fontSize(20),
-                          $text.style.fontWeight(FontWeight.bold),
-
-                        ),),
+                      $text.style.color(Colors.black),
+                      $text.style.fontSize(20),
+                      $text.style.fontWeight(FontWeight.bold),
+                      $on.dark(
+                        $text.style.color(Colors.white),
                       ),
-                      SizedBox(height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.025),
-                      TextField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-
-                          hintText: "Enter your email",
-                          hoverColor: Colors.black54,
-                          focusColor: Colors.black,
-                          enabled: true,
-
-                          labelStyle: TextStyle(
-                            color: Colors
-                                .grey[700], // Label color in light mode
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                TextField(
+                  style: TextStyle(color: Colors.black),
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.black),
+                    hintText: "Enter your email",
+                    hoverColor: Colors.black54,
+                    focusColor: Colors.black,
+                    enabled: true,
+                    // labelStyle: TextStyle(
+                    //   color: Colors.grey[700], // Label color in light mode
+                    // ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey.shade300,
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                PressableBox(
+                  onPress: () {
+                    if (emailController.text.isEmpty) {
+                      // Displaying a snackbar message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Email Field is Empty",
+                            style: TextStyle(color: Colors.red),
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Colors.black),
+                        ),
+                      );
+                      return;
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => EmailVerify(
+                            email: emailController.text,
                           ),
-                          filled: true,
-                          fillColor: Colors.grey.shade300,
+                        ),
+                      );
+                    }
+                  },
+                  style: Style(
+                    $box.width(150),
+                    $box.height(50),
+                    $box.color(Colors.blueAccent),
+                    $box.borderRadius(12),
+                    $box.elevation(2),
+                    $text.style.color(Colors.white),
+                    $on.dark(
+                      $box.color(Colors.blue[700]!),
+                      $text.style.color(Colors.white),
+                    ),
+                  ),
+                  child: Center(
+                    child: StyledText(
+                      "Continue",
+                      style: Style(
+                        $text.style.fontSize(16),
+                        $text.style.fontWeight.bold(),
+                        $on.dark(
+                          $text.style.color(Colors.white),
                         ),
                       ),
-                      SizedBox(height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.05),
-                      GetX(
-
-                        initState: (_) {},
-                        builder: (logic) {
-                          return PressableBox(
-                            onPress: () {
-                              //if(namecontroller.text.isEmpty||phonenumber.text.isEmpty){
-                              if (emailController.text.isEmpty) {
-                                // ScaffoldMessenger.of(context).showSnackBar(
-                                //     SnackBar(content: Text("Email Fields is Empty",style: TextStyle(color: Colors.red),))
-                                // );
-
-                                return;
-                              }
-
-                              else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (_) =>
-                                      EmailVerify(
-                                        email: emailController.text,)),
-                                );
-                              }
-                            },
-                            style: Style(
-                              $box.width(150),
-                              // Button width
-                              $box.height(50),
-                              // Button height
-                              $box.color(Colors.blueAccent),
-                              // Button color in light mode
-                              $box.borderRadius(12),
-                              // Rounded button corners
-                              $box.elevation(2),
-                              // Button shadow elevation
-                              $text.style.color(Colors.white),
-                              // Text color in light mode
-                              $on.dark(
-                                $box.color(Colors.blue[700]!),
-                                // Button color in dark mode
-                                $text.style
-                                    .color(
-                                    Colors.white), // Text color in dark mode
-                              ),
-                            ),
-                            child: Center(
-                              child: StyledText(
-                                "Continue",
-                                style: Style(
-                                  $text.style.fontSize(16),
-                                  $text.style.fontWeight.bold(),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ]),
-              ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
