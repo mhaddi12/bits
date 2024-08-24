@@ -4,6 +4,7 @@ import 'package:bits/views/register_email.dart';
 import 'package:bits/views/user_view.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mix/mix.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -134,7 +135,8 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                       )
                     ]),
-                    TextField(
+                    TextFormField(
+
                       controller: namecontroller,
                       decoration: InputDecoration(
                         hintText: "Name",
@@ -204,13 +206,27 @@ class _RegisterViewState extends State<RegisterView> {
                         //if(namecontroller.text.isEmpty||phonenumber.text.isEmpty){
                           if(namecontroller.text.isEmpty)
                             {
+                              Get.snackbar(
+                                  snackPosition: SnackPosition.TOP,
+                                icon: Icon(Icons.sms_failed_outlined),
+                                "Failed",
+                                "Name Field is Empty",
+                                backgroundColor: Colors.grey,
+                                colorText: Colors.red,
 
+                              );
                               return;
                             }
                           else if(phonenumber.text.isEmpty){
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Number Fields is Empty",style: TextStyle(color: Colors.red),))
+
+                            Get.snackbar(
+                              "Failed",
+                              "Number Field is Empty",
+                              backgroundColor: Colors.grey,
+                              colorText: Colors.red,
+                              snackPosition: SnackPosition.TOP,
                             );
+
                             return ;
                           }
                           else{

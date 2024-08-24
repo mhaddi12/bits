@@ -49,7 +49,14 @@ class _RegisterEmailState extends State<RegisterEmail> {
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-                TextField(
+                TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (!GetUtils.isEmail(value!))
+                      return  "Email is not valid";
+                    else
+                      return null;
+                  },
                   style: TextStyle(color: Colors.black),
                   controller: emailController,
                   decoration: InputDecoration(
