@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mix/mix.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -30,25 +31,26 @@ class _RegisterViewState extends State<RegisterView> {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       body: InkWell(
-      onTap: (){
-        FocusScope.of(context).requestFocus(new FocusNode());
-      },
+        splashColor: Colors.transparent,
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
         child: Center(
           child: SingleChildScrollView(
             child: SafeArea(
               child: Box(
                 style: Style(
                   $box.width(screenWidth),
-                  $box.height(screenhight / 1.5),
+                  $box.height(screenhight),
                   $box.padding(32),
                   // Padding around the Box
                   $box.color(Colors.white),
                   // Background color in light mode
                   $on.dark(
                     $box.color(
-                        Colors.grey[900]!), // Background color in dark mode
+                        Colors.grey[850]!), // Background color in dark mode
                   ),
-                  $box.borderRadius(16),
+                 // $box.borderRadius(16),
                   // Rounded corners
                   $box.elevation(8),
                   // Shadow elevation
@@ -77,9 +79,7 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                     ZBox(children: [
                       PressableBox(
-                        onPress: ()=> {
-                          getImage()
-                        },
+                        onPress: () => {getImage()},
                         style: Style(
                           $box.border.all(
                             width: 2,
@@ -112,33 +112,33 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                         ),
                       ),
+                      if (file == null)
+                        Positioned(
+                          bottom: 7,
+                          right: 2,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey.shade400,
+                            // radius: 18,
+                            child: Box(
+                              style: Style(
+                                  // $box.width(20),
+                                  // $box.height(20),
 
-                      if(file==null)
-                      Positioned(
-                        bottom: 7,
-                        right: 2,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey.shade400,
-                          // radius: 18,
-                          child: Box(
-                            style: Style(
-                                // $box.width(20),
-                                // $box.height(20),
-
-                                ),
-                            child: Center(
-                              child: StyledIcon(
-                                  style: Style($icon.color(Colors.black)),
-                                  Icons.add),
+                                  ),
+                              child: Center(
+                                child: StyledIcon(
+                                    style: Style($icon.color(Colors.black)),
+                                    Icons.add),
+                              ),
                             ),
                           ),
-                        ),
-                      )
+                        )
                     ]),
                     TextFormField(
-
+                      style: TextStyle(color: Colors.grey[900]),
                       controller: namecontroller,
                       decoration: InputDecoration(
+                        hintStyle: TextStyle(color: Colors.grey[700]),
                         hintText: "Name",
                         hoverColor: Colors.black54,
                         focusColor: Colors.black,
@@ -174,7 +174,7 @@ class _RegisterViewState extends State<RegisterView> {
                         // ),
                         Expanded(
                           child: InternationalPhoneNumberInput(
-
+                            textStyle: TextStyle(color: Colors.grey[900]),
                             onInputChanged: (PhoneNumber number) {
                               print(number
                                   .phoneNumber); // Get formatted phone number
@@ -186,10 +186,13 @@ class _RegisterViewState extends State<RegisterView> {
                             // Set the initial country code
                             textFieldController: phonenumber,
                             inputDecoration: InputDecoration(
-                              labelText: "Phone Number",
+                              hintText: "Phone Number",
+                              hintStyle: TextStyle(color: Colors.grey[700]),
+                              labelStyle: TextStyle(color: Colors.grey[900]),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black),
+                                borderSide:
+                                    const BorderSide(color: Colors.black),
                               ),
                               filled: true,
                               fillColor: Colors.grey.shade200,
@@ -204,39 +207,32 @@ class _RegisterViewState extends State<RegisterView> {
                     PressableBox(
                       onPress: () {
                         //if(namecontroller.text.isEmpty||phonenumber.text.isEmpty){
-                          if(namecontroller.text.isEmpty)
-                            {
-                              Get.snackbar(
-                                  snackPosition: SnackPosition.TOP,
-                                icon: Icon(Icons.sms_failed_outlined),
-                                "Failed",
-                                "Name Field is Empty",
-                                backgroundColor: Colors.grey,
-                                colorText: Colors.red,
+                        if (namecontroller.text.isEmpty) {
+                          Get.snackbar(
+                            snackPosition: SnackPosition.TOP,
+                            icon: Icon(Icons.sms_failed_outlined),
+                            "Failed",
+                            "Name Field is Empty",
+                            backgroundColor: Colors.grey,
+                            colorText: Colors.red,
+                          );
+                          return;
+                        } else if (phonenumber.text.isEmpty) {
+                          Get.snackbar(
+                            "Failed",
+                            "Number Field is Empty",
+                            backgroundColor: Colors.grey,
+                            colorText: Colors.red,
+                            snackPosition: SnackPosition.TOP,
+                          );
 
-                              );
-                              return;
-                            }
-                          else if(phonenumber.text.isEmpty){
-
-                            Get.snackbar(
-                              "Failed",
-                              "Number Field is Empty",
-                              backgroundColor: Colors.grey,
-                              colorText: Colors.red,
-                              snackPosition: SnackPosition.TOP,
-                            );
-
-                            return ;
-                          }
-                          else{
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => RegisterEmail()),
-                            );
-                          }
-
-
+                          return;
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => RegisterEmail()),
+                          );
+                        }
                       },
                       style: Style(
                         $box.width(150),
@@ -287,8 +283,8 @@ class _RegisterViewState extends State<RegisterView> {
 
       setState(() {
         print("good");
-     // File(imagetaken!.path) as XFile?;
-        file =File( imagetaken.path);
+        // File(imagetaken!.path) as XFile?;
+        file = File(imagetaken.path);
         print(file);
         //imagetaken =
       });

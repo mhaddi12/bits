@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:bits/views/verify_email.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,6 +35,24 @@ class _RegisterEmailState extends State<RegisterEmail> {
                 ),
               ),
               children: [
+                AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      'Hello world!',
+                      textStyle: const TextStyle(
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                      ),
+                      speed: const Duration(milliseconds: 100),
+                    ),
+                  ],
+                  totalRepeatCount: 4,
+                  pause: const Duration(milliseconds: 500),
+                  displayFullTextOnTap: true,
+                  stopPauseOnTap: true,
+                ),
+
                 Align(
                   alignment: Alignment.centerLeft,
                   child: StyledText(
