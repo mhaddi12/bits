@@ -124,7 +124,7 @@ class _RegisterEmailState extends State<RegisterEmail> {
                   style: Style(
                     $box.width(150),
                     $box.height(50),
-                    $box.color(Colors.blueAccent),
+                    $box.color(Colors.orangeAccent),
                     $box.borderRadius(12),
                     $box.elevation(2),
                     $text.style.color(Colors.white),

@@ -1,4 +1,5 @@
 import 'package:bits/views/register_view.dart';
+import 'package:bits/views/splashScreen.dart';
 import 'package:bits/views/user_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
-      home: const RegisterView(),
+      home: SplashScreen(),
     );
   }
 }

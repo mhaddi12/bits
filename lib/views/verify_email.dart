@@ -1,7 +1,10 @@
+import 'package:bits/views/home_screen.dart';
 import 'package:bits/views/user_view.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mix/mix.dart';
+
+import 'bottom_navigation.dart';
 
 class EmailVerify extends StatefulWidget {
   String email;
@@ -41,44 +44,32 @@ class _EmailVerifyState extends State<EmailVerify> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            // PressableBox(
-            //   onPress: () {
-            //     //if(namecontroller.text.isEmpty||phonenumber.text.isEmpty){
-            //
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (_) => UserView()),
-            //     );
-            //   },
-            //   style: Style(
-            //     $box.width(150),
-            //     // Button width
-            //     $box.height(50),
-            //     // Button height
-            //     $box.color(Colors.blueAccent),
-            //     // Button color in light mode
-            //     $box.borderRadius(12),
-            //     // Rounded button corners
-            //     $box.elevation(2),
-            //     // Button shadow elevation
-            //     $text.style.color(Colors.white),
-            //     // Text color in light mode
-            //     $on.dark(
-            //       $box.color(Colors.blue[700]!),
-            //       // Button color in dark mode
-            //       $text.style.color(Colors.white), // Text color in dark mode
-            //     ),
-            //   ),
-            //   child: Center(
-            //     child: StyledText(
-            //       "Verify",
-            //       style: Style(
-            //         $text.style.fontSize(16),
-            //         $text.style.fontWeight.bold(),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            PressableBox(
+              onPress: () {
+Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BottomNavigation()));
+
+              },
+
+              style: Style(
+                $box.width(150),
+                $box.height(50),
+                $box.color(
+                     Colors.orangeAccent),
+                $box.borderRadius(25),
+                $box.elevation(2),
+                $text.style.color(Colors.white),
+                $text.style.fontWeight.w600(),
+              ),
+              child: Center(
+                child: StyledText(
+                  "Lets chat",
+                  style: Style(
+                    $text.style.fontSize(16),
+                    $text.style.fontWeight.w600(),
+                  ),
+                ),
+              ),
+            ),
           ]),
         ),
       ),

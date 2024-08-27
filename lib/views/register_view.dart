@@ -202,7 +202,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 isDarkMode ? Colors.grey[900] : Colors.grey,
                             colorText: Colors.red,
                             snackPosition: SnackPosition.TOP,
-                            icon: const Icon(Icons.sms_failed_outlined),
+                            icon:  Icon(Icons.sms_failed_outlined,color: Colors.red,),
                           );
                           return;
                         } else if (phoneController.text.isEmpty) {
@@ -228,7 +228,7 @@ class _RegisterViewState extends State<RegisterView> {
                         $box.width(150),
                         $box.height(50),
                         $box.color(
-                            isDarkMode ? Colors.green.shade700 : Colors.green),
+                            Colors.orangeAccent),
                         $box.borderRadius(25),
                         $box.elevation(2),
                         $text.style.color(Colors.white),
