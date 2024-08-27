@@ -1,14 +1,10 @@
 import 'dart:io';
-
 import 'package:bits/views/register_email.dart';
-import 'package:bits/views/user_view.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mix/mix.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:mix/mix.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -18,22 +14,23 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  TextEditingController namecontroller = TextEditingController();
-  TextEditingController phonenumber = TextEditingController();
-
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   File? file;
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenhight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
       resizeToAvoidBottomInset: true,
       body: InkWell(
         splashColor: Colors.transparent,
         onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Center(
           child: SingleChildScrollView(
@@ -41,164 +38,155 @@ class _RegisterViewState extends State<RegisterView> {
               child: Box(
                 style: Style(
                   $box.width(screenWidth),
-                  $box.height(screenhight),
+                  $box.height(screenHeight),
                   $box.padding(32),
-                  // Padding around the Box
-                  $box.color(Colors.white),
-                  // Background color in light mode
-                  $on.dark(
-                    $box.color(
-                        Colors.grey[850]!), // Background color in dark mode
-                  ),
-                 // $box.borderRadius(16),
-                  // Rounded corners
-                  $box.elevation(8),
-                  // Shadow elevation
-                  $box.shadow
-                      .color(Colors.black.withOpacity(0.2)), // Shadow color
+                  $box.color(isDarkMode ? Colors.black : Colors.white),
+                  $box.elevation(0),
                 ),
                 child: VBox(
                   style: Style(
                     $flex.mainAxisAlignment.center(),
                     $flex.crossAxisAlignment.center(),
-                    $flex.gap(20), // Space between children
+                    $flex.gap(20),
                   ),
                   children: [
                     StyledText(
                       "Register",
                       style: Style(
                         $text.style.fontSize(24),
-                        $text.style.fontWeight.bold(),
-                        $text.style.color(Colors.black),
-                        // Text color in light mode
-                        $on.dark(
-                          $text.style
-                              .color(Colors.white), // Text color in dark mode
-                        ),
+                        $text.style.fontWeight.w600(),
+                        $text.style
+                            .color(isDarkMode ? Colors.white : Colors.black),
                       ),
                     ),
-                    ZBox(children: [
-                      PressableBox(
-                        onPress: () => {getImage()},
-                        style: Style(
-                          $box.border.all(
-                            width: 2,
-                          ),
-                          $box.shape.circle(), // Circular shape for the box
-                          $box.width(152),
-                          $box.height(152),
-                          $on.light(
-                              $box.color(Colors.black),
-                              $on.dark(
-                                $box.color(Colors.white70),
-                                $box.border.all(width: 2, color: Colors.white),
-                              ) // Text color in dark mode
-                              ),
+                    PressableBox(
+                      onPress: () => getImage(),
+                      style: Style(
+                        $box.border.all(
+                          width: 2,
+                          color: isDarkMode
+                              ? Colors.grey.shade700
+                              : Colors.grey.shade300,
                         ),
-                        child: ClipOval(
-                          // borderRadius: BorderRadius.circular(90),
-                          child: StyledImage(
-                            style: Style(
-                              $image.width(152),
-                              $image.height(152),
-                              $image.fit.cover(),
-                              $image.alignment.center(),
-                            ),
-                            image: file == null
-                                ? NetworkImage(
-                                    'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg',
-                                  )
-                                : FileImage(file!),
-                          ),
+                        $box.shape.circle(),
+                        $box.width(152),
+                        $box.height(152),
+                        $box.shadow(
+                          color: isDarkMode
+                              ? Colors.grey.shade900
+                              : Colors.grey.shade500,
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
                         ),
+                        $box.color(isDarkMode ? Colors.black : Colors.white),
                       ),
-                      if (file == null)
-                        Positioned(
-                          bottom: 7,
-                          right: 2,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey.shade400,
-                            // radius: 18,
-                            child: Box(
+                      child: Stack(
+                        children: [
+                          ClipOval(
+                            child: StyledImage(
                               style: Style(
-                                  // $box.width(20),
-                                  // $box.height(20),
-
-                                  ),
-                              child: Center(
-                                child: StyledIcon(
-                                    style: Style($icon.color(Colors.black)),
-                                    Icons.add),
+                                $image.width(152),
+                                $image.height(152),
+                                $image.fit.cover(),
+                                $image.alignment.center(),
                               ),
+                              image: file == null
+                                  ? const NetworkImage(
+                                      'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg',
+                                    )
+                                  : FileImage(file!),
                             ),
                           ),
-                        )
-                    ]),
+                          if (file == null)
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: CircleAvatar(
+                                radius: 20,
+                                backgroundColor: isDarkMode
+                                    ? Colors.grey.shade800
+                                    : Colors.white,
+                                child: Icon(
+                                  Icons.add_a_photo,
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : Colors.grey.shade700,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                     TextFormField(
-                      style: TextStyle(color: Colors.grey[900]),
-                      controller: namecontroller,
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.grey[900],
+                      ),
+                      controller: nameController,
                       decoration: InputDecoration(
-                        hintStyle: TextStyle(color: Colors.grey[700]),
+                        hintStyle: TextStyle(
+                            color: isDarkMode
+                                ? Colors.grey[400]
+                                : Colors.grey[700]),
                         hintText: "Name",
-                        hoverColor: Colors.black54,
-                        focusColor: Colors.black,
                         enabled: true,
                         labelStyle: TextStyle(
-                          color: Colors.grey[700], // Label color in light mode
-                        ),
+                            color: isDarkMode
+                                ? Colors.grey[400]
+                                : Colors.grey[700]),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: isDarkMode
+                                  ? Colors.grey
+                                  : Colors.grey.shade400),
                         ),
                         filled: true,
-                        fillColor: Colors.grey.shade200,
+                        fillColor: isDarkMode
+                            ? Colors.grey.shade900
+                            : Colors.grey.shade100,
                       ),
                     ),
                     HBox(
-                      style: Style(
-                        $flex.gap(
-                            12), // Space between the CountryCodePicker and TextField
-                      ),
+                      style: Style($flex.gap(12)),
                       children: [
-                        // CountryCodePicker(
-                        //   onChanged: (country) => print(country), // Handle country changes
-                        //   initialSelection: 'PK', // Country code for Pakistan
-                        //   favorite: ['+92', 'PK'], // Favorite country dial code and code
-                        //   showCountryOnly: false, // Show both country name and dial code
-                        //   showOnlyCountryWhenClosed: false, // Show both when closed
-                        //   alignLeft: false, // Align flag and text
-                        //   boxDecoration: BoxDecoration(
-                        //     color: Colors.white, // Background color of the picker
-                        //     borderRadius: BorderRadius.circular(12),
-                        //   ),
-                        // ),
                         Expanded(
                           child: InternationalPhoneNumberInput(
-                            textStyle: TextStyle(color: Colors.grey[900]),
-                            onInputChanged: (PhoneNumber number) {
-                              print(number
-                                  .phoneNumber); // Get formatted phone number
+                            textStyle: TextStyle(
+                              color:
+                                  isDarkMode ? Colors.white : Colors.grey[900],
+                            ),
+                            onInputChanged: (number) {
+                              print(number.phoneNumber);
                             },
-                            selectorConfig: SelectorConfig(
+                            selectorConfig: const SelectorConfig(
                               selectorType: PhoneInputSelectorType.DROPDOWN,
                             ),
                             initialValue: PhoneNumber(isoCode: 'PK'),
-                            // Set the initial country code
-                            textFieldController: phonenumber,
+                            textFieldController: phoneController,
                             inputDecoration: InputDecoration(
                               hintText: "Phone Number",
-                              hintStyle: TextStyle(color: Colors.grey[700]),
-                              labelStyle: TextStyle(color: Colors.grey[900]),
+                              hintStyle: TextStyle(
+                                  color: isDarkMode
+                                      ? Colors.grey[400]
+                                      : Colors.grey[700]),
+                              labelStyle: TextStyle(
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : Colors.grey[900]),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: isDarkMode
+                                        ? Colors.grey
+                                        : Colors.grey.shade400),
                               ),
                               filled: true,
-                              fillColor: Colors.grey.shade200,
+                              fillColor: isDarkMode
+                                  ? Colors.grey.shade900
+                                  : Colors.grey.shade100,
                             ),
                             formatInput: true,
-                            // Automatically formats the phone number
                             keyboardType: TextInputType.number,
                           ),
                         ),
@@ -206,60 +194,52 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                     PressableBox(
                       onPress: () {
-                        //if(namecontroller.text.isEmpty||phonenumber.text.isEmpty){
-                        if (namecontroller.text.isEmpty) {
+                        if (nameController.text.isEmpty) {
                           Get.snackbar(
-                            snackPosition: SnackPosition.TOP,
-                            icon: Icon(Icons.sms_failed_outlined),
                             "Failed",
                             "Name Field is Empty",
-                            backgroundColor: Colors.grey,
+                            backgroundColor:
+                                isDarkMode ? Colors.grey[900] : Colors.grey,
                             colorText: Colors.red,
+                            snackPosition: SnackPosition.TOP,
+                            icon: const Icon(Icons.sms_failed_outlined),
                           );
                           return;
-                        } else if (phonenumber.text.isEmpty) {
+                        } else if (phoneController.text.isEmpty) {
                           Get.snackbar(
                             "Failed",
                             "Number Field is Empty",
-                            backgroundColor: Colors.grey,
+                            backgroundColor:
+                                isDarkMode ? Colors.grey[900] : Colors.grey,
                             colorText: Colors.red,
                             snackPosition: SnackPosition.TOP,
                           );
-
                           return;
                         } else {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => RegisterEmail()),
+                            MaterialPageRoute(
+                              builder: (_) => const RegisterEmail(),
+                            ),
                           );
                         }
                       },
                       style: Style(
                         $box.width(150),
-                        // Button width
                         $box.height(50),
-                        // Button height
-                        $box.color(Colors.blueAccent),
-                        // Button color in light mode
-                        $box.borderRadius(12),
-                        // Rounded button corners
+                        $box.color(
+                            isDarkMode ? Colors.green.shade700 : Colors.green),
+                        $box.borderRadius(25),
                         $box.elevation(2),
-                        // Button shadow elevation
                         $text.style.color(Colors.white),
-                        // Text color in light mode
-                        $on.dark(
-                          $box.color(Colors.blue[700]!),
-                          // Button color in dark mode
-                          $text.style
-                              .color(Colors.white), // Text color in dark mode
-                        ),
+                        $text.style.fontWeight.w600(),
                       ),
                       child: Center(
                         child: StyledText(
                           "Continue",
                           style: Style(
                             $text.style.fontSize(16),
-                            $text.style.fontWeight.bold(),
+                            $text.style.fontWeight.w600(),
                           ),
                         ),
                       ),
@@ -276,17 +256,12 @@ class _RegisterViewState extends State<RegisterView> {
 
   Future<void> getImage() async {
     try {
-      print("taken");
-      var imagetaken =
+      var imageTaken =
           await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (imagetaken == null) return;
+      if (imageTaken == null) return;
 
       setState(() {
-        print("good");
-        // File(imagetaken!.path) as XFile?;
-        file = File(imagetaken.path);
-        print(file);
-        //imagetaken =
+        file = File(imageTaken.path);
       });
     } catch (e) {
       print("Platform Exception: $e");

@@ -21,7 +21,7 @@ class _RegisterEmailState extends State<RegisterEmail> {
       backgroundColor: Colors.white,
       body: InkWell(
         onTap: () {
-          FocusScope.of(context).unfocus(); // Corrected focus handling
+          FocusScope.of(context).unfocus();
         },
         child: Center(
           child: SingleChildScrollView(
@@ -35,23 +35,23 @@ class _RegisterEmailState extends State<RegisterEmail> {
                 ),
               ),
               children: [
-                AnimatedTextKit(
-                  animatedTexts: [
-                    TypewriterAnimatedText(
-                      'Hello world!',
-                      textStyle: const TextStyle(
-                        fontSize: 32.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white
-                      ),
-                      speed: const Duration(milliseconds: 100),
-                    ),
-                  ],
-                  totalRepeatCount: 4,
-                  pause: const Duration(milliseconds: 500),
-                  displayFullTextOnTap: true,
-                  stopPauseOnTap: true,
-                ),
+                // AnimatedTextKit(
+                //   animatedTexts: [
+                //     TypewriterAnimatedText(
+                //       'Hello world!',
+                //       textStyle: const TextStyle(
+                //         fontSize: 32.0,
+                //         fontWeight: FontWeight.bold,
+                //         color: Colors.white
+                //       ),
+                //       speed: const Duration(milliseconds: 100),
+                //     ),
+                //   ],
+                //   totalRepeatCount: 4,
+                //   pause: const Duration(milliseconds: 500),
+                //   displayFullTextOnTap: true,
+                //   stopPauseOnTap: true,
+                // ),
 
                 Align(
                   alignment: Alignment.centerLeft,
